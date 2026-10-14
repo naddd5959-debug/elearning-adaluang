@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data & Probability Explorer</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e0f2fe, #f5e9ff);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      color: #17365d;
+    }
+    .container {
+      background: white;
+      padding: 32px 24px;
+      border-radius: 24px;
+      box-shadow: 0 12px 35px #17365d20;
+      text-align: center;
+      width: 100%;
+      max-width: 440px;
+    }
+    h1 { font-size: 28px; margin-bottom: 10px; }
+    p { color: #64748b; line-height: 1.6; }
+    .roles { display: grid; gap: 14px; margin: 26px 0; }
+    button, input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+    }
+    button {
+      border: none;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover { background: #1d4ed8; }
+    .student { background: #0d9488; }
+    .student:hover { background: #0f766e; }
+    input {
+      border: 1px solid #cbd5e1;
+      margin: 12px 0;
+    }
+    .hidden { display: none; }
+    .back {
+      background: #e2e8f0;
+      color: #334155;
+      margin-top: 12px;
+    }
+    #message { color: #dc2626; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section id="home">
+      <h1>📊 Data & Probability Explorer</h1>
+      <p>Selamat datang di ruang belajar Analisis Data dan Peluang.</p>
+      <p>Silakan pilih peranmu untuk melanjutkan.</p>
+
+      <div class="roles">
+        <button onclick="chooseRole('guru')">
+          👩‍🏫 Masuk sebagai Guru
+        </button>
+        <button class="student" onclick="chooseRole('siswa')">
+          🎓 Masuk sebagai Siswa
+        </button>
+      </div>
+    </section>
+
+    <section id="login" class="hidden">
+      <h2 id="roleTitle">Kode Akses</h2>
+      <p>Masukkan kode akses untuk melanjutkan.</p>
+      <form onsubmit="return login(event)">
+        <input
+          id="accessCode"
+          type="password"
+          placeholder="Masukkan kode akses"
+          autocomplete="current-password"
+          required
+        >
+        <button type="submit">Verifikasi Kode</button>
+      </form>
+      <p id="message" role="alert"></p>
+      <button class="back" onclick="goHome()">← Kembali</button>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <h2 id="welcome"></h2>
+      <p id="description"></p>
+      <button onclick="goHome()">Keluar</button>
+    </section>
+  </main>
+
+  <script>
+    // DEMO SAJA: kode ini bukan sistem keamanan sungguhan.
+    // Untuk website publik, gunakan autentikasi di server.
+
+    const DEMO_CODES = {
+      guru: "GURU-DEMO-2026",
+      siswa: "SISWA-DEMO-2026"
+    };
+
+    let selectedRole = "";
+
+    function chooseRole(role) {
+      selectedRole = role;
+      document.getElementById("home").classList.add("hidden");
+      document.getElementById("login").classList.remove("hidden");
+      document.getElementById("roleTitle").textContent =
+        role === "guru" ? "Akses Guru" : "Akses Siswa";
+      document.getElementById("accessCode").value = "";
+      document.getElementById("message").textContent = "";
+    }
+
+    function login(event) {
+      event.preventDefault();
+
+      const code = document.getElementById("accessCode").value;
+
+      if (code !== DEMO_CODES[selectedRole]) {
+        document.getElementById("message").textContent =
+          "Kode akses salah. Silakan coba lagi.";
+        return false;
+      }
+
+      document.getElementById("login").classList.add("hidden");
+      document.getElementById("dashboard").classList.remove("hidden");
+
+      document.getElementById("welcome").textContent =
+        selectedRole === "guru" ? "Dashboard Guru" : "Ruang Belajar Siswa";
+
+      document.getElementById("description").textContent =
+        selectedRole === "guru"
+          ? "Area guru untuk mengelola materi, soal, nilai, dan feedback."
+          : "Area siswa untuk mempelajari materi, simulasi, dan mengerjakan kuis.";
+
+      return false;
+    }
+
+    function goHome() {
+      selectedRole = "";
+      document.getElementById("login").classList.add("hidden");
+      document.getElementById("dashboard").classList.add("hidden");
+      document.getElementById("home").classList.remove("hidden");
+      document.getElementById("accessCode").value = "";
+    }
+  </script>
+</body>
+</html>
