@@ -31,7 +31,7 @@ body {
     #f8fafc;
 }
 
-button, input { font: inherit; }
+button, input, textarea { font: inherit; }
 button { cursor: pointer; }
 
 .topbar {
@@ -293,9 +293,12 @@ h1 {
   box-shadow: 0 18px 45px #17255410;
 }
 
+.panel.wide { max-width: 850px; }
+
 .panel-head { text-align: center; }
 .panel-head .role-icon { margin: 0 auto 15px; }
 .panel-head h2 { margin: 0 0 8px; font-size: 27px; }
+
 .panel-head p {
   margin: 0 0 22px;
   color: var(--muted);
@@ -310,7 +313,7 @@ label {
   margin: 15px 0 8px;
 }
 
-input {
+input, textarea {
   width: 100%;
   border: 1px solid #cbd5e1;
   border-radius: 12px;
@@ -319,7 +322,12 @@ input {
   background: #f8fafc;
 }
 
-input:focus {
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+input:focus, textarea:focus {
   border-color: #818cf8;
   box-shadow: 0 0 0 3px #818cf822;
 }
@@ -371,12 +379,123 @@ input:focus {
 }
 
 .dashboard-item {
-  padding: 15px;
+  padding: 18px;
   border: 1px solid #e2e8f0;
   border-radius: 14px;
   background: #f8fafc;
-  font-weight: 800;
-  font-size: 14px;
+}
+
+.dashboard-item h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.dashboard-item p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.menu-btn {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  background: #eaf0ff;
+  color: #3157a4;
+  border-radius: 10px;
+  font-weight: 900;
+}
+
+.menu-btn:hover { background: #dbe7ff; }
+
+.page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.secondary-btn {
+  border: 0;
+  padding: 11px 14px;
+  border-radius: 10px;
+  background: #eaf0ff;
+  color: #3157a4;
+  font-weight: 900;
+}
+
+.material-form {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.material-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.material-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px;
+  overflow-wrap: anywhere;
+}
+
+.material-card h3 { margin: 10px 0; }
+.material-card p {
+  color: var(--muted);
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.material-tag {
+  color: #2563eb;
+  background: #eff6ff;
+  border-radius: 7px;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.material-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.material-actions a, .material-actions button {
+  text-decoration: none;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 12px;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.open-material {
+  background: #3157a4;
+  color: white;
+}
+
+.delete-material {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted);
+  padding: 28px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
 }
 
 footer {
@@ -405,6 +524,7 @@ footer {
   .role-card p { min-height: 0; }
   .section-head h2 { font-size: 23px; }
   .panel { padding: 24px 20px; }
+  .material-list { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -422,6 +542,7 @@ footer {
 </header>
 
 <main>
+  <!-- BERANDA: TAMPILAN ASLI DIPERTAHANKAN -->
   <section id="home">
     <div class="hero">
       <div>
@@ -482,6 +603,7 @@ footer {
     </div>
   </section>
 
+  <!-- LOGIN ASLI -->
   <section id="login" class="panel hidden">
     <div class="panel-head">
       <div id="loginIcon" class="role-icon teacher-icon">🔐</div>
@@ -508,27 +630,81 @@ footer {
     <div id="error" class="error" role="alert"></div>
 
     <div class="notice">
-      🔒 Ini masih login demo. Nama dan kode belum diverifikasi
-      menggunakan akun tersimpan. Jangan gunakan untuk melindungi
-      data pribadi atau nilai sungguhan.
+      Login ini masih berupa demo dan belum menggunakan autentikasi
+      atau database sungguhan.
     </div>
 
     <button class="back-btn" onclick="goHome()">← Kembali ke Beranda</button>
   </section>
 
-  <section id="dashboard" class="panel hidden">
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="panel wide hidden">
     <div class="welcome-icon" id="welcomeIcon">🎓</div>
     <div class="panel-head">
       <h2 id="welcomeTitle">Selamat datang!</h2>
       <p id="welcomeDesc"></p>
     </div>
-    <div id="dashboardLinks" class="dashboard-links"></div>
-    <div class="notice">
-      Halaman ini masih berupa kerangka awal. Fitur pengelolaan
-      soal, pengiriman jawaban, dan feedback perlu dikembangkan
-      dan dihubungkan ke penyimpanan data.
+
+    <div class="page-heading">
+      <h2>Menu Pembelajaran</h2>
+      <button class="secondary-btn" onclick="logout()">Keluar ↗</button>
     </div>
-    <button class="back-btn" onclick="goHome()">Keluar ↗</button>
+
+    <div id="dashboardLinks" class="dashboard-links"></div>
+  </section>
+
+  <!-- HALAMAN MATERI -->
+  <section id="materiPage" class="panel wide hidden">
+    <div class="page-heading">
+      <div>
+        <span class="eyebrow">ADALUANG</span>
+        <h2>Materi Pembelajaran</h2>
+        <p style="color:var(--muted)">
+          Analisis Data dan Peluang — SMA/MA
+        </p>
+      </div>
+      <button class="secondary-btn" onclick="kembaliDashboard()">
+        ← Dashboard
+      </button>
+    </div>
+
+    <div id="formMateri" class="material-form hidden">
+      <h3>＋ Tambahkan Materi</h3>
+      <form onsubmit="return tambahMateri(event)">
+        <label for="judulMateri">Judul materi</label>
+        <input id="judulMateri" type="text"
+          placeholder="Contoh: Penyajian Data" required>
+
+        <label for="deskripsiMateri">Deskripsi</label>
+        <textarea id="deskripsiMateri"
+          placeholder="Tuliskan deskripsi materi..." required></textarea>
+
+        <label for="linkMateri">Tautan PDF/PPT</label>
+        <input id="linkMateri" type="url"
+          placeholder="https://..." required>
+
+        <button type="submit" class="primary-btn teacher-btn">
+          Simpan Materi
+        </button>
+      </form>
+      <div class="notice">
+        Tempelkan tautan file yang dapat diakses murid. File harus
+        diunggah terlebih dahulu ke penyimpanan seperti Google Drive.
+      </div>
+    </div>
+
+    <h3>Daftar Materi</h3>
+    <p id="jumlahMateri" style="color:var(--muted)">0 materi tersedia</p>
+    <div id="daftarMateri" class="material-list"></div>
+  </section>
+
+  <section id="comingPage" class="panel hidden">
+    <div class="panel-head">
+      <div class="welcome-icon">🚧</div>
+      <h2 id="comingTitle">Fitur berikutnya</h2>
+      <p>Menu ini akan dikembangkan pada tahap berikutnya.</p>
+    </div>
+    <button class="back-btn" onclick="kembaliDashboard()">← Dashboard</button>
   </section>
 </main>
 
@@ -538,24 +714,34 @@ footer {
 </footer>
 
 <script>
-// KODE DEMO. Kode di JavaScript publik dapat dilihat melalui source website.
-// Gunakan autentikasi dan database sungguhan sebelum menyimpan nilai murid.
-
 const ACCESS_CODES = {
   guru: "GURUADALUANG",
   murid: "MURIDADALUANG"
 };
 
 let selectedRole = "";
+let activeUser = null;
+
+const PAGE_IDS = [
+  "home", "login", "dashboard", "materiPage", "comingPage"
+];
+
+function showPage(pageId) {
+  PAGE_IDS.forEach(id => {
+    document.getElementById(id).classList.add("hidden");
+  });
+
+  document.getElementById(pageId).classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
 function chooseRole(role) {
   selectedRole = role;
+  const isGuru = role === "guru";
 
   document.getElementById("home").classList.add("hidden");
   document.getElementById("dashboard").classList.add("hidden");
   document.getElementById("login").classList.remove("hidden");
-
-  const isGuru = role === "guru";
 
   document.getElementById("loginTitle").textContent =
     isGuru ? "Ruang Guru" : "Ruang Murid";
@@ -563,7 +749,7 @@ function chooseRole(role) {
   document.getElementById("loginDesc").textContent =
     isGuru
       ? "Masukkan nama lengkap dan kode akses guru."
-      : "Masukkan nama lengkap dan kode akses untuk mulai belajar.";
+      : "Masukkan nama lengkap dan kode akses murid.";
 
   document.getElementById("loginIcon").textContent =
     isGuru ? "👩‍🏫" : "🎓";
@@ -594,62 +780,263 @@ function login(event) {
     return false;
   }
 
-  if (code !== ACCESS_CODES[selectedRole]) {
+  if (!selectedRole || code !== ACCESS_CODES[selectedRole]) {
     document.getElementById("error").textContent =
       "Kode akses tidak sesuai. Silakan periksa kembali.";
     return false;
   }
 
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("dashboard").classList.remove("hidden");
-
-  const isGuru = selectedRole === "guru";
+  activeUser = { nama: name, peran: selectedRole };
 
   document.getElementById("welcomeIcon").textContent =
-    isGuru ? "👩‍🏫" : "🎓";
+    selectedRole === "guru" ? "👩‍🏫" : "🎓";
 
   document.getElementById("welcomeTitle").textContent =
     "Halo, " + name + "! 👋";
 
   document.getElementById("welcomeDesc").textContent =
-    isGuru
+    selectedRole === "guru"
       ? "Selamat datang di ruang pengelolaan pembelajaran ADALUANG."
       : "Saatnya menjelajahi dunia Analisis Data dan Peluang.";
 
-  const links = isGuru
-    ? [
-        ["📝", "Kelola Materi dan Soal"],
-        ["📊", "Lihat Hasil Pengerjaan Murid"],
-        ["💬", "Berikan Feedback"]
-      ]
-    : [
-        ["📚", "Belajar Analisis Data"],
-        ["🎲", "Eksplorasi Peluang"],
-        ["🏆", "Kuis dan Tantangan"]
-      ];
-
-  document.getElementById("dashboardLinks").innerHTML =
-    links.map(item =>
-      `<div class="dashboard-item">${item[0]} &nbsp; ${item[1]}</div>`
-    ).join("");
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  buatMenuDashboard();
+  showPage("dashboard");
   return false;
 }
 
-function goHome() {
+function buatMenuDashboard() {
+  const links = document.getElementById("dashboardLinks");
+  links.replaceChildren();
+
+  const menus = [
+    {
+      ikon: "📚",
+      judul: "Materi",
+      deskripsi: activeUser.peran === "guru"
+        ? "Tambahkan dan kelola materi pembelajaran."
+        : "Lihat materi pembelajaran yang tersedia.",
+      aksi: bukaMateri
+    },
+    {
+      ikon: "📝",
+      judul: "Soal Latihan",
+      deskripsi: "Latihan soal Analisis Data dan Peluang.",
+      aksi: () => bukaFitur("Soal Latihan")
+    },
+    {
+      ikon: "💬",
+      judul: "Feedback",
+      deskripsi: "Umpan balik kegiatan pembelajaran.",
+      aksi: () => bukaFitur("Feedback")
+    },
+    {
+      ikon: "📊",
+      judul: "Progres Belajar",
+      deskripsi: "Informasi perkembangan belajar.",
+      aksi: () => bukaFitur("Progres Belajar")
+    }
+  ];
+
+  menus.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "dashboard-item";
+
+    const title = document.createElement("h3");
+    title.textContent = item.ikon + " " + item.judul;
+
+    const desc = document.createElement("p");
+    desc.textContent = item.deskripsi;
+
+    const button = document.createElement("button");
+    button.className = "menu-btn";
+    button.type = "button";
+    button.textContent = "Buka Menu →";
+    button.addEventListener("click", item.aksi);
+
+    card.append(title, desc, button);
+    links.appendChild(card);
+  });
+}
+
+function bukaFitur(nama) {
+  document.getElementById("comingTitle").textContent = nama;
+  showPage("comingPage");
+}
+
+function kembaliDashboard() {
+  if (!activeUser) {
+    showPage("home");
+    return;
+  }
+  showPage("dashboard");
+}
+
+function logout() {
+  activeUser = null;
   selectedRole = "";
-
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("dashboard").classList.add("hidden");
-  document.getElementById("home").classList.remove("hidden");
-
   document.getElementById("fullName").value = "";
   document.getElementById("accessCode").value = "";
   document.getElementById("error").textContent = "";
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  showPage("home");
 }
+
+/* PENYIMPANAN MATERI DEMO DI BROWSER */
+function bacaMateri() {
+  try {
+    const raw = localStorage.getItem("adaluang_materi");
+    const data = raw ? JSON.parse(raw) : [];
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function simpanMateri(data) {
+  try {
+    localStorage.setItem("adaluang_materi", JSON.stringify(data));
+    return true;
+  } catch {
+    alert("Materi gagal disimpan di browser ini.");
+    return false;
+  }
+}
+
+function bukaMateri() {
+  if (!activeUser) {
+    showPage("home");
+    return;
+  }
+
+  document.getElementById("formMateri").classList.toggle(
+    "hidden", activeUser.peran !== "guru"
+  );
+
+  tampilkanMateri();
+  showPage("materiPage");
+}
+
+function tambahMateri(event) {
+  event.preventDefault();
+
+  if (!activeUser || activeUser.peran !== "guru") {
+    alert("Hanya guru yang dapat menambahkan materi.");
+    return false;
+  }
+
+  const judul = document.getElementById("judulMateri").value.trim();
+  const deskripsi = document.getElementById("deskripsiMateri").value.trim();
+  const link = document.getElementById("linkMateri").value.trim();
+
+  let url;
+
+  try {
+    url = new URL(link);
+    if (!["http:", "https:"].includes(url.protocol)) {
+      throw new Error("Tautan tidak valid");
+    }
+  } catch {
+    alert("Masukkan tautan yang valid, misalnya https://...");
+    return false;
+  }
+
+  const data = bacaMateri();
+
+  data.push({
+    id: Date.now().toString(),
+    judul,
+    deskripsi,
+    link: url.href,
+    pembuat: activeUser.nama
+  });
+
+  if (simpanMateri(data)) {
+    document.getElementById("judulMateri").value = "";
+    document.getElementById("deskripsiMateri").value = "";
+    document.getElementById("linkMateri").value = "";
+    tampilkanMateri();
+    alert("Materi berhasil disimpan di browser ini.");
+  }
+
+  return false;
+}
+
+function tampilkanMateri() {
+  const daftar = document.getElementById("daftarMateri");
+  const jumlah = document.getElementById("jumlahMateri");
+  const data = bacaMateri();
+
+  daftar.replaceChildren();
+  jumlah.textContent = data.length + " materi tersedia";
+
+  if (data.length === 0) {
+    const kosong = document.createElement("div");
+    kosong.className = "empty-state";
+    kosong.textContent = activeUser.peran === "guru"
+      ? "Belum ada materi. Tambahkan materi melalui formulir di atas."
+      : "Belum ada materi yang tersedia.";
+    daftar.appendChild(kosong);
+    return;
+  }
+
+  data.forEach(item => {
+    const card = document.createElement("article");
+    card.className = "material-card";
+
+    const tag = document.createElement("span");
+    tag.className = "material-tag";
+    tag.textContent = "MATERI PEMBELAJARAN";
+
+    const title = document.createElement("h3");
+    title.textContent = item.judul;
+
+    const desc = document.createElement("p");
+    desc.textContent = item.deskripsi;
+
+    const author = document.createElement("small");
+    author.textContent = "Dibuat oleh: " + item.pembuat;
+
+    const actions = document.createElement("div");
+    actions.className = "material-actions";
+
+    const open = document.createElement("a");
+    open.className = "open-material";
+    open.href = item.link;
+    open.target = "_blank";
+    open.rel = "noopener noreferrer";
+    open.textContent = "Buka Materi ↗";
+    actions.appendChild(open);
+
+    if (activeUser.peran === "guru") {
+      const del = document.createElement("button");
+      del.className = "delete-material";
+      del.type = "button";
+      del.textContent = "Hapus";
+
+      del.addEventListener("click", () => hapusMateri(item.id));
+      actions.appendChild(del);
+    }
+
+    card.append(tag, title, desc, author, actions);
+    daftar.appendChild(card);
+  });
+}
+
+function hapusMateri(id) {
+  if (!activeUser || activeUser.peran !== "guru") {
+    alert("Hanya guru yang dapat menghapus materi.");
+    return;
+  }
+
+  if (!confirm("Yakin ingin menghapus materi ini?")) return;
+
+  const data = bacaMateri().filter(item => item.id !== id);
+
+  if (simpanMateri(data)) {
+    tampilkanMateri();
+  }
+}
+
+showPage("home");
 </script>
 </body>
 </html>
