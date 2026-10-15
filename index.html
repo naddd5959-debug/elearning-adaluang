@@ -653,4 +653,48 @@ function goHome() {
 </script>
 </body>
 </html>
+```html
+<!-- HALAMAN MATERI ADALUANG -->
+<section id="materiPage" class="hidden">
+  <div class="panel">
+    <button type="button" onclick="kembaliDashboard()">
+      ← Kembali ke Dashboard
+    </button>
+
+    <h2>Materi Pembelajaran</h2>
+    <p>Analisis Data dan Peluang — SMA/MA</p>
+
+    <div id="formMateri" class="hidden">
+      <h3>Tambah Materi</h3>
+
+      <label for="judulMateri">Judul Materi</label>
+      <input
+        id="judulMateri"
+        type="text"
+        placeholder="Contoh: Penyajian Data"
+      >
+
+      <label for="deskripsiMateri">Deskripsi</label>
+      <textarea
+        id="deskripsiMateri"
+        placeholder="Deskripsi singkat materi"
+      ></textarea>
+
+      <label for="linkMateri">Tautan PDF/PPT</label>
+      <input
+        id="linkMateri"
+        type="url"
+        placeholder="https://..."
+      >
+
+      <button type="button" onclick="tambahMateri()">
+        Simpan Materi
+      </button>
+    </div>
+
+    <div id="daftarMateri">
+      <p>Belum ada materi yang ditambahkan.</p>
+    </div>
+  </div>
+</section>
 ```
