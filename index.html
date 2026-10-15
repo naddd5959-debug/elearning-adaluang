@@ -2,699 +2,924 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#172554">
-<title>ADALUANG | Analisis Data dan Peluang</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADALUANG | Analisis Data dan Peluang</title>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap');
+  <style>
+    :root {
+      --primary: #3157a4;
+      --primary-dark: #203d7a;
+      --accent: #f2b84b;
+      --bg: #f4f7fc;
+      --text: #24324a;
+      --muted: #68768d;
+      --white: #ffffff;
+      --border: #e1e7f0;
+      --success: #23855b;
+    }
 
-:root {
-  --navy: #172554;
-  --blue: #3b82f6;
-  --purple: #8b5cf6;
-  --teal: #14b8a6;
-  --muted: #64748b;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-* { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: 'Nunito', sans-serif;
-  color: var(--navy);
-  background:
-    radial-gradient(ellipse at 5% 10%, #dbeafe 0, transparent 40%),
-    radial-gradient(ellipse at 95% 90%, #ede9fe 0, transparent 40%),
-    #f8fafc;
-}
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
 
-button, input { font: inherit; }
-button { cursor: pointer; }
+    button {
+      cursor: pointer;
+    }
 
-.topbar {
-  max-width: 1120px;
-  margin: auto;
-  padding: 22px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
+    .hidden {
+      display: none !important;
+    }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+    .navbar {
+      background: var(--white);
+      padding: 16px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-.logo {
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  border-radius: 16px;
-  color: white;
-  font-size: 25px;
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--blue), var(--purple));
-  box-shadow: 0 7px 18px #6366f140;
-}
+    .brand {
+      color: var(--primary);
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
 
-.brand-name {
-  font-weight: 900;
-  font-size: 22px;
-  letter-spacing: 1.5px;
-}
+    .brand span {
+      color: var(--accent);
+    }
 
-.brand-sub {
-  color: var(--muted);
-  font-size: 11px;
-  letter-spacing: .5px;
-}
+    .nav-info {
+      color: var(--muted);
+      font-size: 13px;
+    }
 
-.pill {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 30px;
-  padding: 9px 15px;
-  font-size: 12px;
-  font-weight: 800;
-}
+    .container {
+      width: min(1080px, 90%);
+      margin: 36px auto;
+    }
 
-main {
-  max-width: 1050px;
-  margin: auto;
-  padding: 22px 24px 50px;
-}
+    .hero {
+      background: linear-gradient(135deg, #203d7a, #4776c9);
+      color: white;
+      padding: 52px 35px;
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+    }
 
-.hero {
-  display: grid;
-  grid-template-columns: 1.2fr .8fr;
-  align-items: center;
-  gap: 30px;
-  background: white;
-  padding: 42px;
-  border-radius: 30px;
-  border: 1px solid #e5eaf5;
-  box-shadow: 0 18px 50px #1725540a;
-  overflow: hidden;
-  position: relative;
-}
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      border: 35px solid rgba(255,255,255,.09);
+      border-radius: 50%;
+      right: -60px;
+      top: -70px;
+    }
 
-.eyebrow {
-  display: inline-block;
-  background: #eff6ff;
-  color: #2563eb;
-  border-radius: 30px;
-  padding: 8px 13px;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: .6px;
-}
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.2;
+      margin: 12px 0;
+      max-width: 650px;
+    }
 
-h1 {
-  font-size: clamp(34px, 5vw, 52px);
-  line-height: 1.12;
-  letter-spacing: -1.5px;
-  margin: 20px 0 14px;
-}
+    .hero p {
+      max-width: 650px;
+      color: #e5edff;
+    }
 
-.gradient-text {
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-}
+    .eyebrow {
+      color: var(--accent);
+      font-weight: bold;
+      letter-spacing: 2px;
+      font-size: 13px;
+    }
 
-.hero-desc {
-  max-width: 470px;
-  color: var(--muted);
-  line-height: 1.8;
-  font-size: 15px;
-}
+    .button {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 18px;
+      font-weight: bold;
+      background: var(--primary);
+      color: white;
+      transition: .2s;
+    }
 
-.art {
-  min-height: 250px;
-  display: grid;
-  place-items: center;
-  position: relative;
-}
+    .button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
 
-.orbit {
-  width: 235px;
-  height: 235px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #dbeafe, #ede9fe, #ccfbf1);
-  display: grid;
-  place-items: center;
-  position: relative;
-}
+    .button.secondary {
+      background: #e9eef9;
+      color: var(--primary);
+    }
 
-.chart-card {
-  width: 170px;
-  padding: 22px 20px;
-  background: white;
-  border-radius: 22px;
-  box-shadow: 0 15px 35px #17255420;
-  transform: rotate(-5deg);
-}
+    .button.secondary:hover {
+      background: #dbe5f8;
+    }
 
-.chart-title {
-  font-size: 12px;
-  font-weight: 900;
-  margin-bottom: 17px;
-}
+    .button.danger {
+      background: #fff0f0;
+      color: #b42323;
+    }
 
-.bars {
-  height: 85px;
-  display: flex;
-  align-items: end;
-  justify-content: center;
-  gap: 10px;
-  border-bottom: 2px solid #dbeafe;
-}
+    .button.gold {
+      background: var(--accent);
+      color: #28334b;
+    }
 
-.bar {
-  width: 22px;
-  border-radius: 7px 7px 2px 2px;
-}
+    .button.small {
+      padding: 7px 12px;
+      font-size: 13px;
+    }
 
-.b1 { height: 35%; background: #60a5fa; }
-.b2 { height: 70%; background: #818cf8; }
-.b3 { height: 50%; background: #c084fc; }
-.b4 { height: 95%; background: #2dd4bf; }
+    .section-title {
+      margin: 0 0 6px;
+      font-size: 27px;
+    }
 
-.float {
-  position: absolute;
-  background: white;
-  border-radius: 15px;
-  padding: 13px 16px;
-  font-weight: 900;
-  box-shadow: 0 8px 25px #17255412;
-}
+    .muted {
+      color: var(--muted);
+    }
 
-.float.one { top: 14px; right: 0; color: #7c3aed; }
-.float.two { bottom: 10px; left: 0; color: #0d9488; }
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 26px;
+      box-shadow: 0 8px 24px rgba(30, 55, 100, .04);
+    }
 
-.section-head {
-  margin: 38px 0 20px;
-  text-align: center;
-}
+    .login-wrap {
+      max-width: 480px;
+      margin: 42px auto;
+    }
 
-.section-head h2 {
-  font-size: 26px;
-  margin: 0 0 7px;
-}
+    .login-wrap .panel {
+      padding: 32px;
+    }
 
-.section-head p {
-  color: var(--muted);
-  margin: 0;
-  font-size: 14px;
-}
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 16px 0 6px;
+      font-size: 14px;
+    }
 
-.roles {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ccd5e4;
+      border-radius: 10px;
+      background: white;
+      outline: none;
+      color: var(--text);
+    }
 
-.role-card {
-  border: 1px solid #e2e8f0;
-  background: white;
-  border-radius: 24px;
-  padding: 25px;
-  text-align: left;
-  transition: transform .2s, box-shadow .2s;
-}
+    input:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(49, 87, 164, .1);
+    }
 
-.role-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 32px #17255412;
-}
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
 
-.role-icon {
-  width: 58px;
-  height: 58px;
-  display: grid;
-  place-items: center;
-  border-radius: 18px;
-  font-size: 29px;
-  margin-bottom: 18px;
-}
+    .full {
+      width: 100%;
+      margin-top: 20px;
+    }
 
-.teacher-icon { background: #dbeafe; }
-.student-icon { background: #ccfbf1; }
+    .notice {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #fff8e8;
+      color: #74551a;
+      font-size: 13px;
+    }
 
-.role-card h3 {
-  font-size: 22px;
-  margin: 0 0 8px;
-}
+    .dashboard-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
 
-.role-card p {
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--muted);
-  min-height: 44px;
-}
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
 
-.role-card button, .primary-btn {
-  width: 100%;
-  border: 0;
-  padding: 14px;
-  border-radius: 13px;
-  color: white;
-  font-weight: 900;
-  margin-top: 10px;
-  transition: filter .2s;
-}
+    .menu-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: left;
+      color: var(--text);
+      transition: .2s;
+      width: 100%;
+    }
 
-.role-card button:hover, .primary-btn:hover {
-  filter: brightness(.94);
-}
+    .menu-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(49, 87, 164, .09);
+    }
 
-.teacher-btn {
-  background: linear-gradient(100deg, #3b82f6, #6366f1);
-}
+    .menu-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      background: #edf2ff;
+      border-radius: 13px;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
 
-.student-btn {
-  background: linear-gradient(100deg, #0d9488, #14b8a6);
-}
+    .menu-card h3 {
+      margin: 0 0 6px;
+      color: var(--primary);
+    }
 
-.panel {
-  max-width: 460px;
-  margin: 30px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 25px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 18px 45px #17255410;
-}
+    .menu-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
 
-.panel-head { text-align: center; }
-.panel-head .role-icon { margin: 0 auto 15px; }
-.panel-head h2 { margin: 0 0 8px; font-size: 27px; }
-.panel-head p {
-  margin: 0 0 22px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.7;
-}
+    .page-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
 
-label {
-  display: block;
-  font-weight: 800;
-  font-size: 13px;
-  margin: 15px 0 8px;
-}
+    .material-form {
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      background: #f9fbff;
+    }
 
-input {
-  width: 100%;
-  border: 1px solid #cbd5e1;
-  border-radius: 12px;
-  padding: 14px;
-  outline: none;
-  background: #f8fafc;
-}
+    .material-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
 
-input:focus {
-  border-color: #818cf8;
-  box-shadow: 0 0 0 3px #818cf822;
-}
+    .material-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      background: white;
+      min-width: 0;
+    }
 
-.error {
-  color: #dc2626;
-  font-size: 13px;
-  margin-top: 12px;
-  min-height: 20px;
-}
+    .material-card h3 {
+      margin: 8px 0;
+      overflow-wrap: anywhere;
+    }
 
-.back-btn {
-  width: 100%;
-  padding: 12px;
-  border: 0;
-  background: #f1f5f9;
-  color: #475569;
-  border-radius: 12px;
-  margin-top: 10px;
-  font-weight: 800;
-}
+    .material-card p {
+      color: var(--muted);
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
 
-.notice {
-  background: #fff7ed;
-  border: 1px solid #fed7aa;
-  color: #9a3412;
-  border-radius: 12px;
-  padding: 12px;
-  font-size: 12px;
-  line-height: 1.6;
-  margin-top: 17px;
-}
+    .material-tag {
+      display: inline-block;
+      background: #edf2ff;
+      color: var(--primary);
+      padding: 4px 9px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+    }
 
-.welcome-icon {
-  width: 75px;
-  height: 75px;
-  border-radius: 23px;
-  display: grid;
-  place-items: center;
-  font-size: 36px;
-  margin: 0 auto 20px;
-  background: linear-gradient(135deg, #dbeafe, #ede9fe);
-}
+    .material-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
 
-.dashboard-links {
-  display: grid;
-  gap: 10px;
-  margin-top: 20px;
-}
+    .empty-state {
+      border: 1px dashed #cbd5e5;
+      padding: 28px 18px;
+      text-align: center;
+      border-radius: 14px;
+      color: var(--muted);
+      grid-column: 1 / -1;
+    }
 
-.dashboard-item {
-  padding: 15px;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  background: #f8fafc;
-  font-weight: 800;
-  font-size: 14px;
-}
+    .footer {
+      padding: 26px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
 
-footer {
-  text-align: center;
-  padding: 25px 15px;
-  color: #94a3b8;
-  font-size: 12px;
-}
+    @media (max-width: 650px) {
+      .navbar {
+        padding: 13px 5%;
+      }
 
-.hidden { display: none !important; }
+      .container {
+        margin: 24px auto;
+      }
 
-@media (max-width: 700px) {
-  .topbar { padding: 16px; }
-  .brand-name { font-size: 19px; }
-  .pill { font-size: 10px; padding: 8px; }
-  main { padding: 12px 16px 35px; }
-  .hero {
-    grid-template-columns: 1fr;
-    padding: 28px 23px;
-    gap: 8px;
-  }
-  .hero h1 { font-size: 37px; }
-  .art { min-height: 235px; }
-  .orbit { width: 205px; height: 205px; }
-  .roles { grid-template-columns: 1fr; }
-  .role-card p { min-height: 0; }
-  .section-head h2 { font-size: 23px; }
-  .panel { padding: 24px 20px; }
-}
-</style>
+      .hero {
+        padding: 35px 23px;
+      }
+
+      .menu-grid,
+      .material-list {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      .login-wrap .panel {
+        padding: 24px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<header class="topbar">
-  <div class="brand">
-    <div class="logo">A</div>
-    <div>
-      <div class="brand-name">ADALUANG</div>
-      <div class="brand-sub">RUANG BELAJAR MATEMATIKA</div>
-    </div>
-  </div>
-  <div class="pill">✨ SMA / MA</div>
-</header>
 
-<main>
-  <section id="home">
-    <div class="hero">
-      <div>
-        <span class="eyebrow">✦ BELAJAR • EKSPLORASI • TEMUKAN</span>
-        <h1>Angka punya cerita.<br><span class="gradient-text">Ayo temukan!</span></h1>
-        <p class="hero-desc">
-          Selamat datang di ADALUANG, ruang belajar Analisis Data
-          dan Peluang. Pahami konsep, coba eksperimen, dan uji
-          kemampuanmu dengan cara yang lebih menyenangkan.
+  <header class="navbar">
+    <div class="brand">ADA<span>LUANG</span></div>
+    <div class="nav-info">Analisis Data dan Peluang</div>
+  </header>
+
+  <main class="container">
+
+    <!-- BERANDA -->
+    <section id="homePage">
+      <div class="hero">
+        <div class="eyebrow">MEDIA PEMBELAJARAN MATEMATIKA</div>
+        <h1>Belajar Data dan Peluang Jadi Lebih Menyenangkan.</h1>
+        <p>
+          Selamat datang di ADALUANG, ruang belajar Analisis Data dan
+          Peluang untuk siswa SMA/MA. Pelajari materi dan latih
+          kemampuan berpikir matematis secara bertahap.
         </p>
+        <button class="button gold" onclick="bukaLogin()">
+          Mulai Belajar →
+        </button>
       </div>
-      <div class="art">
-        <div class="orbit">
-          <div class="chart-card">
-            <div class="chart-title">DATA INSIGHT ↗</div>
-            <div class="bars">
-              <div class="bar b1"></div>
-              <div class="bar b2"></div>
-              <div class="bar b3"></div>
-              <div class="bar b4"></div>
-            </div>
+
+      <div style="margin-top:28px" class="panel">
+        <h2 class="section-title">Tentang ADALUANG</h2>
+        <p class="muted">
+          ADALUANG menyediakan ruang pembelajaran digital yang
+          menghubungkan guru dan siswa dalam mempelajari Analisis Data
+          dan Peluang.
+        </p>
+        <button class="button" onclick="bukaLogin()">Masuk ke ADALUANG</button>
+      </div>
+    </section>
+
+    <!-- LOGIN -->
+    <section id="loginPage" class="login-wrap hidden">
+      <div class="panel">
+        <div class="brand">ADA<span>LUANG</span></div>
+        <h2>Selamat Datang!</h2>
+        <p class="muted">Masuk untuk melanjutkan kegiatan pembelajaran.</p>
+
+        <form onsubmit="login(event)">
+          <label for="namaPengguna">Nama lengkap</label>
+          <input
+            id="namaPengguna"
+            type="text"
+            placeholder="Masukkan nama lengkap"
+            autocomplete="name"
+            required
+          >
+
+          <label for="kodeAkses">Kode akses</label>
+          <input
+            id="kodeAkses"
+            type="password"
+            placeholder="Masukkan kode akses"
+            required
+          >
+
+          <button class="button full" type="submit">Masuk →</button>
+        </form>
+
+        <button class="button secondary full" onclick="keBeranda()">
+          Kembali ke Beranda
+        </button>
+
+        <div id="loginError" class="notice hidden"></div>
+
+        <div class="notice">
+          <strong>Catatan pengembangan:</strong> Login ini masih berupa
+          prototipe. Kode akses ditulis di dalam JavaScript sehingga
+          belum aman untuk penggunaan resmi.
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboardPage" class="hidden">
+      <div class="dashboard-head">
+        <div>
+          <div class="eyebrow" style="color:var(--primary)">DASHBOARD</div>
+          <h1 id="sapaan" class="section-title">Halo!</h1>
+          <p id="infoPeran" class="muted"></p>
+        </div>
+        <button class="button secondary" onclick="logout()">Keluar</button>
+      </div>
+
+      <div class="panel">
+        <h2 class="section-title">Menu Pembelajaran</h2>
+        <p class="muted">Pilih menu untuk melanjutkan.</p>
+
+        <div class="menu-grid">
+          <button class="menu-card" onclick="bukaMateri()">
+            <div class="menu-icon">📚</div>
+            <h3>Materi</h3>
+            <p>Lihat dan pelajari materi Analisis Data dan Peluang.</p>
+          </button>
+
+          <button class="menu-card" onclick="fiturBelumTersedia('Soal')">
+            <div class="menu-icon">📝</div>
+            <h3>Soal Latihan</h3>
+            <p>Latih pemahaman melalui soal-soal matematika.</p>
+          </button>
+
+          <button class="menu-card" onclick="fiturBelumTersedia('Feedback')">
+            <div class="menu-icon">💬</div>
+            <h3>Feedback</h3>
+            <p>Lihat atau berikan umpan balik pembelajaran.</p>
+          </button>
+
+          <button class="menu-card" onclick="fiturBelumTersedia('Progres')">
+            <div class="menu-icon">📊</div>
+            <h3>Progres Belajar</h3>
+            <p>Pantau perkembangan kegiatan belajar.</p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- HALAMAN MATERI -->
+    <section id="materiPage" class="hidden">
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow" style="color:var(--primary)">ADALUANG</div>
+          <h1 class="section-title">Materi Pembelajaran</h1>
+          <p class="muted">Analisis Data dan Peluang — SMA/MA</p>
+        </div>
+        <button class="button secondary" onclick="kembaliDashboard()">
+          ← Dashboard
+        </button>
+      </div>
+
+      <!-- FORM TAMBAH MATERI KHUSUS GURU -->
+      <div id="formMateri" class="panel material-form hidden">
+        <h2 style="margin-top:0">Tambah Materi Baru</h2>
+        <p class="muted">
+          Isi judul, deskripsi, dan tautan file materi yang dapat diakses siswa.
+        </p>
+
+        <form onsubmit="tambahMateri(event)">
+          <label for="judulMateri">Judul materi</label>
+          <input
+            id="judulMateri"
+            type="text"
+            placeholder="Contoh: Penyajian Data"
+            required
+          >
+
+          <label for="deskripsiMateri">Deskripsi materi</label>
+          <textarea
+            id="deskripsiMateri"
+            placeholder="Tuliskan ringkasan materi..."
+            required
+          ></textarea>
+
+          <label for="linkMateri">Tautan PDF/PPT</label>
+          <input
+            id="linkMateri"
+            type="url"
+            placeholder="https://..."
+            required
+          >
+
+          <div class="material-actions">
+            <button class="button" type="submit">+ Simpan Materi</button>
+            <button
+              class="button secondary"
+              type="button"
+              onclick="resetFormMateri()"
+            >
+              Bersihkan
+            </button>
+          </div>
+        </form>
+
+        <div class="notice">
+          Gunakan tautan file yang bisa diakses oleh siswa, misalnya
+          tautan Google Drive dengan izin berbagi yang sesuai.
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="page-heading">
+          <div>
+            <h2 style="margin:0">Daftar Materi</h2>
+            <p id="jumlahMateri" class="muted" style="margin:4px 0 0">
+              0 materi tersedia
+            </p>
           </div>
         </div>
-        <div class="float one">📊 Data</div>
-        <div class="float two">🎲 Peluang</div>
+
+        <div id="daftarMateri" class="material-list"></div>
       </div>
-    </div>
+    </section>
 
-    <div class="section-head">
-      <h2>Siap untuk mulai belajar?</h2>
-      <p>Pilih ruang belajar sesuai peranmu.</p>
-    </div>
+  </main>
 
-    <div class="roles">
-      <article class="role-card">
-        <div class="role-icon teacher-icon">👩‍🏫</div>
-        <h3>Ruang Guru</h3>
-        <p>
-          Kelola pembelajaran, siapkan soal, tinjau hasil,
-          dan berikan feedback kepada murid.
-        </p>
-        <button class="teacher-btn" onclick="chooseRole('guru')">
-          Masuk sebagai Guru ↗
-        </button>
-      </article>
+  <footer class="footer">
+    <strong>ADALUANG</strong> · Analisis Data dan Peluang<br>
+    Media Pembelajaran Matematika SMA/MA
+  </footer>
 
-      <article class="role-card">
-        <div class="role-icon student-icon">🎓</div>
-        <h3>Ruang Murid</h3>
-        <p>
-          Pelajari materi, amati grafik, lakukan simulasi,
-          dan selesaikan tantangan matematika.
-        </p>
-        <button class="student-btn" onclick="chooseRole('murid')">
-          Masuk sebagai Murid ↗
-        </button>
-      </article>
-    </div>
-  </section>
+  <script>
+    // ========================================
+    // KONFIGURASI LOGIN PROTOTIPE
+    // ========================================
 
-  <section id="login" class="panel hidden">
-    <div class="panel-head">
-      <div id="loginIcon" class="role-icon teacher-icon">🔐</div>
-      <h2 id="loginTitle">Akses Guru</h2>
-      <p id="loginDesc">Masukkan nama dan kode akses untuk melanjutkan.</p>
-    </div>
+    const KODE_AKSES = {
+      guru: "GURUADALUANG",
+      siswa: "MURIDADALUANG"
+    };
 
-    <form onsubmit="return login(event)">
-      <label for="fullName">Nama lengkap</label>
-      <input id="fullName" type="text"
-        placeholder="Masukkan nama lengkap"
-        maxlength="80" autocomplete="name" required>
+    let penggunaAktif = null;
 
-      <label for="accessCode">Kode akses</label>
-      <input id="accessCode" type="password"
-        placeholder="Masukkan kode akses"
-        autocomplete="off" required>
+    // ========================================
+    // NAVIGASI HALAMAN
+    // ========================================
 
-      <button class="primary-btn teacher-btn" id="loginButton" type="submit">
-        Verifikasi dan Masuk →
-      </button>
-    </form>
-
-    <div id="error" class="error" role="alert"></div>
-
-    <div class="notice">
-      🔒 Ini masih login demo. Nama dan kode belum diverifikasi
-      menggunakan akun tersimpan. Jangan gunakan untuk melindungi
-      data pribadi atau nilai sungguhan.
-    </div>
-
-    <button class="back-btn" onclick="goHome()">← Kembali ke Beranda</button>
-  </section>
-
-  <section id="dashboard" class="panel hidden">
-    <div class="welcome-icon" id="welcomeIcon">🎓</div>
-    <div class="panel-head">
-      <h2 id="welcomeTitle">Selamat datang!</h2>
-      <p id="welcomeDesc"></p>
-    </div>
-    <div id="dashboardLinks" class="dashboard-links"></div>
-    <div class="notice">
-      Halaman ini masih berupa kerangka awal. Fitur pengelolaan
-      soal, pengiriman jawaban, dan feedback perlu dikembangkan
-      dan dihubungkan ke penyimpanan data.
-    </div>
-    <button class="back-btn" onclick="goHome()">Keluar ↗</button>
-  </section>
-</main>
-
-<footer>
-  ADALUANG © 2026 · Analisis Data dan Peluang<br>
-  Belajar matematika dengan cara yang lebih bermakna.
-</footer>
-
-<script>
-// KODE DEMO. Kode di JavaScript publik dapat dilihat melalui source website.
-// Gunakan autentikasi dan database sungguhan sebelum menyimpan nilai murid.
-
-const ACCESS_CODES = {
-  guru: "GURUADALUANG",
-  murid: "MURIDADALUANG"
-};
-
-let selectedRole = "";
-
-function chooseRole(role) {
-  selectedRole = role;
-
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("dashboard").classList.add("hidden");
-  document.getElementById("login").classList.remove("hidden");
-
-  const isGuru = role === "guru";
-
-  document.getElementById("loginTitle").textContent =
-    isGuru ? "Ruang Guru" : "Ruang Murid";
-
-  document.getElementById("loginDesc").textContent =
-    isGuru
-      ? "Masukkan nama lengkap dan kode akses guru."
-      : "Masukkan nama lengkap dan kode akses untuk mulai belajar.";
-
-  document.getElementById("loginIcon").textContent =
-    isGuru ? "👩‍🏫" : "🎓";
-
-  document.getElementById("loginIcon").className =
-    "role-icon " + (isGuru ? "teacher-icon" : "student-icon");
-
-  document.getElementById("loginButton").className =
-    "primary-btn " + (isGuru ? "teacher-btn" : "student-btn");
-
-  document.getElementById("loginButton").textContent =
-    isGuru ? "Masuk ke Ruang Guru →" : "Masuk ke Ruang Murid →";
-
-  document.getElementById("fullName").value = "";
-  document.getElementById("accessCode").value = "";
-  document.getElementById("error").textContent = "";
-}
-
-function login(event) {
-  event.preventDefault();
-
-  const name = document.getElementById("fullName").value.trim();
-  const code = document.getElementById("accessCode").value.trim();
-
-  if (!name) {
-    document.getElementById("error").textContent =
-      "Nama lengkap harus diisi.";
-    return false;
-  }
-
-  if (code !== ACCESS_CODES[selectedRole]) {
-    document.getElementById("error").textContent =
-      "Kode akses tidak sesuai. Silakan periksa kembali.";
-    return false;
-  }
-
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("dashboard").classList.remove("hidden");
-
-  const isGuru = selectedRole === "guru";
-
-  document.getElementById("welcomeIcon").textContent =
-    isGuru ? "👩‍🏫" : "🎓";
-
-  document.getElementById("welcomeTitle").textContent =
-    "Halo, " + name + "! 👋";
-
-  document.getElementById("welcomeDesc").textContent =
-    isGuru
-      ? "Selamat datang di ruang pengelolaan pembelajaran ADALUANG."
-      : "Saatnya menjelajahi dunia Analisis Data dan Peluang.";
-
-  const links = isGuru
-    ? [
-        ["📝", "Kelola Materi dan Soal"],
-        ["📊", "Lihat Hasil Pengerjaan Murid"],
-        ["💬", "Berikan Feedback"]
-      ]
-    : [
-        ["📚", "Belajar Analisis Data"],
-        ["🎲", "Eksplorasi Peluang"],
-        ["🏆", "Kuis dan Tantangan"]
+    function tampilkanHalaman(idHalaman) {
+      const halaman = [
+        "homePage",
+        "loginPage",
+        "dashboardPage",
+        "materiPage"
       ];
 
-  document.getElementById("dashboardLinks").innerHTML =
-    links.map(item =>
-      `<div class="dashboard-item">${item[0]} &nbsp; ${item[1]}</div>`
-    ).join("");
+      halaman.forEach(function(id) {
+        document.getElementById(id).classList.add("hidden");
+      });
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  return false;
-}
+      document.getElementById(idHalaman).classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-function goHome() {
-  selectedRole = "";
+    function bukaLogin() {
+      tampilkanHalaman("loginPage");
+      document.getElementById("loginError").classList.add("hidden");
+    }
 
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("dashboard").classList.add("hidden");
-  document.getElementById("home").classList.remove("hidden");
+    function keBeranda() {
+      tampilkanHalaman("homePage");
+    }
 
-  document.getElementById("fullName").value = "";
-  document.getElementById("accessCode").value = "";
-  document.getElementById("error").textContent = "";
+    function bukaDashboard() {
+      if (!penggunaAktif) {
+        bukaLogin();
+        return;
+      }
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-</script>
+      document.getElementById("sapaan").textContent =
+        "Halo, " + penggunaAktif.nama + "! 👋";
+
+      document.getElementById("infoPeran").textContent =
+        penggunaAktif.peran === "guru"
+          ? "Anda masuk sebagai Guru."
+          : "Anda masuk sebagai Siswa.";
+
+      tampilkanHalaman("dashboardPage");
+    }
+
+    function kembaliDashboard() {
+      bukaDashboard();
+    }
+
+    // ========================================
+    // LOGIN DAN LOGOUT
+    // ========================================
+
+    function login(event) {
+      event.preventDefault();
+
+      const nama = document.getElementById("namaPengguna")
+        .value.trim();
+
+      const kode = document.getElementById("kodeAkses")
+        .value.trim();
+
+      const error = document.getElementById("loginError");
+
+      let peran = "";
+
+      if (!nama) {
+        tampilkanError("Nama lengkap harus diisi.");
+        return;
+      }
+
+      if (kode === KODE_AKSES.guru) {
+        peran = "guru";
+      } else if (kode === KODE_AKSES.siswa) {
+        peran = "siswa";
+      } else {
+        tampilkanError("Kode akses tidak sesuai. Silakan periksa kembali.");
+        return;
+      }
+
+      penggunaAktif = {
+        nama: nama,
+        peran: peran
+      };
+
+      document.getElementById("kodeAkses").value = "";
+      error.classList.add("hidden");
+
+      bukaDashboard();
+    }
+
+    function tampilkanError(pesan) {
+      const error = document.getElementById("loginError");
+      error.textContent = pesan;
+      error.classList.remove("hidden");
+    }
+
+    function logout() {
+      penggunaAktif = null;
+      document.getElementById("namaPengguna").value = "";
+      document.getElementById("kodeAkses").value = "";
+      resetFormMateri();
+      tampilkanHalaman("homePage");
+    }
+
+    // ========================================
+    // FITUR MATERI
+    // ========================================
+
+    function bukaMateri() {
+      if (!penggunaAktif) {
+        bukaLogin();
+        return;
+      }
+
+      const form = document.getElementById("formMateri");
+
+      // Hanya pengguna dengan peran guru yang melihat form.
+      if (penggunaAktif.peran === "guru") {
+        form.classList.remove("hidden");
+      } else {
+        form.classList.add("hidden");
+      }
+
+      tampilkanDaftarMateri();
+      tampilkanHalaman("materiPage");
+    }
+
+    function bacaMateriTersimpan() {
+      try {
+        const data = localStorage.getItem("adaluang_materi");
+        const materi = data ? JSON.parse(data) : [];
+
+        return Array.isArray(materi) ? materi : [];
+      } catch (error) {
+        console.error("Gagal membaca data materi:", error);
+        return [];
+      }
+    }
+
+    function simpanMateriKeBrowser(materi) {
+      try {
+        localStorage.setItem(
+          "adaluang_materi",
+          JSON.stringify(materi)
+        );
+        return true;
+      } catch (error) {
+        console.error("Gagal menyimpan materi:", error);
+        alert("Materi gagal disimpan di browser ini.");
+        return false;
+      }
+    }
+
+    function tambahMateri(event) {
+      event.preventDefault();
+
+      if (!penggunaAktif || penggunaAktif.peran !== "guru") {
+        alert("Hanya guru yang dapat menambahkan materi.");
+        return;
+      }
+
+      const judul = document.getElementById("judulMateri")
+        .value.trim();
+
+      const deskripsi = document.getElementById("deskripsiMateri")
+        .value.trim();
+
+      const link = document.getElementById("linkMateri")
+        .value.trim();
+
+      if (!judul || !deskripsi || !link) {
+        alert("Lengkapi semua kolom materi terlebih dahulu.");
+        return;
+      }
+
+      let alamat;
+
+      try {
+        alamat = new URL(link);
+
+        if (!["http:", "https:"].includes(alamat.protocol)) {
+          throw new Error("Protokol tautan tidak sesuai.");
+        }
+      } catch (error) {
+        alert("Masukkan tautan yang valid dan diawali https:// atau http://.");
+        return;
+      }
+
+      const materi = bacaMateriTersimpan();
+
+      materi.push({
+        id: Date.now().toString(),
+        judul: judul,
+        deskripsi: deskripsi,
+        link: alamat.href,
+        pembuat: penggunaAktif.nama
+      });
+
+      if (simpanMateriKeBrowser(materi)) {
+        resetFormMateri();
+        tampilkanDaftarMateri();
+        alert("Materi berhasil ditambahkan di browser ini.");
+      }
+    }
+
+    function resetFormMateri() {
+      const form = document.querySelector("#formMateri form");
+
+      if (form) {
+        form.reset();
+      }
+    }
+
+    function tampilkanDaftarMateri() {
+      const daftar = document.getElementById("daftarMateri");
+      const jumlah = document.getElementById("jumlahMateri");
+      const materi = bacaMateriTersimpan();
+
+      jumlah.textContent = materi.length + " materi tersedia";
+      daftar.replaceChildren();
+
+      if (materi.length === 0) {
+        const kosong = document.createElement("div");
+        kosong.className = "empty-state";
+        kosong.innerHTML =
+          "<div style='font-size:32px'>📚</div>" +
+          "<strong>Belum ada materi</strong>" +
+          "<p>Materi yang tersedia akan ditampilkan di sini.</p>";
+
+        daftar.appendChild(kosong);
+        return;
+      }
+
+      materi.forEach(function(item) {
+        const kartu = document.createElement("article");
+        kartu.className = "material-card";
+
+        const tag = document.createElement("span");
+        tag.className = "material-tag";
+        tag.textContent = "MATERI PEMBELAJARAN";
+
+        const judul = document.createElement("h3");
+        judul.textContent = item.judul;
+
+        const deskripsi = document.createElement("p");
+        deskripsi.textContent = item.deskripsi;
+
+        const pembuat = document.createElement("small");
+        pembuat.className = "muted";
+        pembuat.textContent = "Ditambahkan oleh: " + item.pembuat;
+
+        const aksi = document.createElement("div");
+        aksi.className = "material-actions";
+
+        const buka = document.createElement("a");
+        buka.className = "button";
+        buka.textContent = "Buka Materi ↗";
+        buka.href = item.link;
+        buka.target = "_blank";
+        buka.rel = "noopener noreferrer";
+        buka.style.textDecoration = "none";
+
+        aksi.appendChild(buka);
+
+        if (penggunaAktif && penggunaAktif.peran === "guru") {
+          const hapus = document.createElement("button");
+          hapus.type = "button";
+          hapus.className = "button danger small";
+          hapus.textContent = "Hapus";
+
+          hapus.addEventListener("click", function() {
+            hapusMateri(item.id);
+          });
+
+          aksi.appendChild(hapus);
+        }
+
+        kartu.append(tag, judul, deskripsi, pembuat, aksi);
+        daftar.appendChild(kartu);
+      });
+    }
+
+    function hapusMateri(id) {
+      if (!penggunaAktif || penggunaAktif.peran !== "guru") {
+        alert("Hanya guru yang dapat menghapus materi.");
+        return;
+      }
+
+      const yakin = confirm("Yakin ingin menghapus materi ini?");
+
+      if (!yakin) return;
+
+      const materi = bacaMateriTersimpan()
+        .filter(function(item) {
+          return item.id !== id;
+        });
+
+      if (simpanMateriKeBrowser(materi)) {
+        tampilkanDaftarMateri();
+      }
+    }
+
+    // ========================================
+    // MENU YANG AKAN DIKEMBANGKAN SELANJUTNYA
+    // ========================================
+
+    function fiturBelumTersedia(namaFitur) {
+      alert(
+        "Menu " + namaFitur +
+        " belum diaktifkan. Kita akan mengembangkannya setelah menu Materi."
+      );
+    }
+
+    // Tampilkan beranda saat website pertama kali dibuka.
+    tampilkanHalaman("homePage");
+  </script>
+
 </body>
 </html>
-```html
-<!-- HALAMAN MATERI ADALUANG -->
-<section id="materiPage" class="hidden">
-  <div class="panel">
-    <button type="button" onclick="kembaliDashboard()">
-      ← Kembali ke Dashboard
-    </button>
-
-    <h2>Materi Pembelajaran</h2>
-    <p>Analisis Data dan Peluang — SMA/MA</p>
-
-    <div id="formMateri" class="hidden">
-      <h3>Tambah Materi</h3>
-
-      <label for="judulMateri">Judul Materi</label>
-      <input
-        id="judulMateri"
-        type="text"
-        placeholder="Contoh: Penyajian Data"
-      >
-
-      <label for="deskripsiMateri">Deskripsi</label>
-      <textarea
-        id="deskripsiMateri"
-        placeholder="Deskripsi singkat materi"
-      ></textarea>
-
-      <label for="linkMateri">Tautan PDF/PPT</label>
-      <input
-        id="linkMateri"
-        type="url"
-        placeholder="https://..."
-      >
-
-      <button type="button" onclick="tambahMateri()">
-        Simpan Materi
-      </button>
-    </div>
-
-    <div id="daftarMateri">
-      <p>Belum ada materi yang ditambahkan.</p>
-    </div>
-  </div>
-</section>
 ```
