@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -283,29 +283,6 @@ h1 {
   background: linear-gradient(100deg, #0d9488, #14b8a6);
 }
 
-.features {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin-top: 30px;
-}
-
-.feature {
-  background: #ffffffb8;
-  border: 1px solid #e8edf5;
-  border-radius: 18px;
-  padding: 19px;
-}
-
-.feature-icon { font-size: 24px; }
-.feature h4 { margin: 10px 0 5px; }
-.feature p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
-}
-
 .panel {
   max-width: 460px;
   margin: 30px auto;
@@ -426,7 +403,6 @@ footer {
   .orbit { width: 205px; height: 205px; }
   .roles { grid-template-columns: 1fr; }
   .role-card p { min-height: 0; }
-  .features { grid-template-columns: 1fr; }
   .section-head h2 { font-size: 23px; }
   .panel { padding: 24px 20px; }
 }
@@ -504,38 +480,26 @@ footer {
         </button>
       </article>
     </div>
-
-    <div class="features">
-      <div class="feature">
-        <div class="feature-icon">📈</div>
-        <h4>Analisis Data</h4>
-        <p>Pelajari penyajian data, ukuran pemusatan, dan interpretasi.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🎲</div>
-        <h4>Eksplorasi Peluang</h4>
-        <p>Kenali ruang sampel melalui eksperimen interaktif.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🏆</div>
-        <h4>Tantangan Belajar</h4>
-        <p>Latih kemampuan dan evaluasi pemahamanmu.</p>
-      </div>
-    </div>
   </section>
 
   <section id="login" class="panel hidden">
     <div class="panel-head">
       <div id="loginIcon" class="role-icon teacher-icon">🔐</div>
       <h2 id="loginTitle">Akses Guru</h2>
-      <p id="loginDesc">Masukkan kode akses untuk melanjutkan.</p>
+      <p id="loginDesc">Masukkan nama dan kode akses untuk melanjutkan.</p>
     </div>
 
     <form onsubmit="return login(event)">
+      <label for="fullName">Nama lengkap</label>
+      <input id="fullName" type="text"
+        placeholder="Masukkan nama lengkap"
+        maxlength="80" autocomplete="name" required>
+
       <label for="accessCode">Kode akses</label>
       <input id="accessCode" type="password"
         placeholder="Masukkan kode akses"
         autocomplete="off" required>
+
       <button class="primary-btn teacher-btn" id="loginButton" type="submit">
         Verifikasi dan Masuk →
       </button>
@@ -544,8 +508,9 @@ footer {
     <div id="error" class="error" role="alert"></div>
 
     <div class="notice">
-      🔒 Kode akses demo ini hanya gerbang sederhana.
-      Jangan masukkan data pribadi atau nilai sungguhan.
+      🔒 Ini masih login demo. Nama dan kode belum diverifikasi
+      menggunakan akun tersimpan. Jangan gunakan untuk melindungi
+      data pribadi atau nilai sungguhan.
     </div>
 
     <button class="back-btn" onclick="goHome()">← Kembali ke Beranda</button>
@@ -573,8 +538,8 @@ footer {
 </footer>
 
 <script>
-// KODE DEMO. Jangan gunakan untuk mengamankan data sungguhan.
-// Kode di JavaScript publik dapat dilihat melalui source website.
+// KODE DEMO. Kode di JavaScript publik dapat dilihat melalui source website.
+// Gunakan autentikasi dan database sungguhan sebelum menyimpan nilai murid.
 
 const ACCESS_CODES = {
   guru: "GURUADALUANG",
@@ -585,27 +550,34 @@ let selectedRole = "";
 
 function chooseRole(role) {
   selectedRole = role;
+
   document.getElementById("home").classList.add("hidden");
   document.getElementById("dashboard").classList.add("hidden");
   document.getElementById("login").classList.remove("hidden");
 
   const isGuru = role === "guru";
+
   document.getElementById("loginTitle").textContent =
     isGuru ? "Ruang Guru" : "Ruang Murid";
+
   document.getElementById("loginDesc").textContent =
     isGuru
-      ? "Silakan masukkan kode akses khusus guru."
-      : "Masukkan kode akses untuk memulai perjalanan belajarmu.";
+      ? "Masukkan nama lengkap dan kode akses guru."
+      : "Masukkan nama lengkap dan kode akses untuk mulai belajar.";
 
   document.getElementById("loginIcon").textContent =
     isGuru ? "👩‍🏫" : "🎓";
+
   document.getElementById("loginIcon").className =
     "role-icon " + (isGuru ? "teacher-icon" : "student-icon");
+
   document.getElementById("loginButton").className =
     "primary-btn " + (isGuru ? "teacher-btn" : "student-btn");
+
   document.getElementById("loginButton").textContent =
     isGuru ? "Masuk ke Ruang Guru →" : "Masuk ke Ruang Murid →";
 
+  document.getElementById("fullName").value = "";
   document.getElementById("accessCode").value = "";
   document.getElementById("error").textContent = "";
 }
@@ -613,7 +585,14 @@ function chooseRole(role) {
 function login(event) {
   event.preventDefault();
 
+  const name = document.getElementById("fullName").value.trim();
   const code = document.getElementById("accessCode").value.trim();
+
+  if (!name) {
+    document.getElementById("error").textContent =
+      "Nama lengkap harus diisi.";
+    return false;
+  }
 
   if (code !== ACCESS_CODES[selectedRole]) {
     document.getElementById("error").textContent =
@@ -625,10 +604,13 @@ function login(event) {
   document.getElementById("dashboard").classList.remove("hidden");
 
   const isGuru = selectedRole === "guru";
+
   document.getElementById("welcomeIcon").textContent =
     isGuru ? "👩‍🏫" : "🎓";
+
   document.getElementById("welcomeTitle").textContent =
-    isGuru ? "Halo, Guru! 👋" : "Halo, Pejuang Matematika! ✨";
+    "Halo, " + name + "! 👋";
+
   document.getElementById("welcomeDesc").textContent =
     isGuru
       ? "Selamat datang di ruang pengelolaan pembelajaran ADALUANG."
@@ -657,13 +639,18 @@ function login(event) {
 
 function goHome() {
   selectedRole = "";
+
   document.getElementById("login").classList.add("hidden");
   document.getElementById("dashboard").classList.add("hidden");
   document.getElementById("home").classList.remove("hidden");
+
+  document.getElementById("fullName").value = "";
   document.getElementById("accessCode").value = "";
   document.getElementById("error").textContent = "";
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 </script>
 </body>
 </html>
+```
